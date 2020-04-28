@@ -3,8 +3,7 @@ import socket
 # Socket donnant l'accès au serveur
 connexion_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-adresse = "192.168.1.4"
-port = 5555
+adresse, port = ("192.168.1.4", 5555)
 
 # Demande de connexion au serveur
 connexion_serveur.connect((adresse, port))

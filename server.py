@@ -4,8 +4,7 @@ import socket
 # SOCK_STREAM = protocole TCP
 socket_ecoute = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-addresse = "192.168.1.4"
-port = 5555
+adresse, port = ("192.168.1.4", 5555)
 
 # On lie le socket à une adresse et un port
 socket_ecoute.bind((addresse, port))
