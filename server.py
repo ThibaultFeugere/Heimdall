@@ -1,4 +1,18 @@
 import socket
+import threading
+
+class ClientThread(threading.Thread):
+    def __init__(self, connexion_client):
+        threading.Thread.__init__(self)
+        self.connexion_client = connexion_client
+
+    def run(self):
+        # On attend de recevoir un message du du client
+        data = self.connexion_client.recv(1024)
+        data = data.decode("utf8")
+        print(data)
+
+#-------------------------------------------------
 
 # AF_INET = adresses Internet de type IPv4
 # SOCK_STREAM = protocole TCP
@@ -18,9 +32,8 @@ while True:
     # On accepte la connexion du client
     connexion_client, adresse_client = socket_ecoute.accept()
 
-    # On attend de recevoir un message du serveur
-    message = connexion_client.recv(1024)
-    print(message)
+    my_thread = ClientThread(connexion_client)
+    my_thread.start()
 
 # Fermeture des connexions
 connexion_client.close()
