@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import socket
 import threading
 
@@ -9,7 +12,7 @@ class ClientThread(threading.Thread):
     def run(self):
         # On attend de recevoir un message du du client
         data = self.connexion_client.recv(1024)
-        data = data.decode("utf8")
+        data = data.decode("utf-8")
         print(data)
 
 #-------------------------------------------------
@@ -18,7 +21,7 @@ class ClientThread(threading.Thread):
 # SOCK_STREAM = protocole TCP
 socket_ecoute = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-adresse, port = ("192.168.1.4", 5555)
+adresse, port = ("127.0.0.1", 5555)
 
 # On lie le socket à une adresse et un port
 socket_ecoute.bind((adresse, port))

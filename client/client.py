@@ -1,8 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import socket
 
-adresse, port = ("192.168.1.4", 5555)
+adresse, port = ("127.0.0.1", 5555)
 
-username = input("Quel est votre pseudo ?")
+username = raw_input("Quel est votre pseudo ?")
 
 # Socket donnant l'accès au serveur
 connexion_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
