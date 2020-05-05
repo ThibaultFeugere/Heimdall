@@ -10,13 +10,17 @@ pseudo = ('thibault',)
 
 requete = cursor.execute('SELECT * FROM users WHERE username = ?', pseudo)
 resultat = requete.fetchone()
-username = resultat[1]
 
-print(resultat, username)
+print(resultat, resultat[1])
 
 req = cursor.execute('SELECT * FROM users')
 res = req.fetchall()
 
 print(res)
+
+reque = cursor.execute('SELECT * FROM users')
+
+for row in reque.fetchall():
+    print(row)
 
 connection.close()
