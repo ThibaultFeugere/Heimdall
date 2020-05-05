@@ -5,7 +5,7 @@ import socket
 
 adresse, port = ("127.0.0.1", 5555)
 
-username = raw_input("Quel est votre pseudo ?")
+username = input("Quel est votre pseudo ?")
 
 # Socket donnant l'accès au serveur
 connexion_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
