@@ -10,10 +10,12 @@ class ClientThread(threading.Thread):
         self.connexion_client = connexion_client
 
     def run(self):
-        # On attend de recevoir un message du du client
-        data = self.connexion_client.recv(1024)
-        data = data.decode("utf-8")
-        print(data)
+        while(True):
+            # On attend de recevoir un message du du client
+            data = self.connexion_client.recv(1024)
+            data = data.decode("utf-8")
+            if data != "":
+                print(data)
 
 #-------------------------------------------------
 
@@ -34,6 +36,7 @@ while True:
 
     # On accepte la connexion du client
     connexion_client, adresse_client = socket_ecoute.accept()
+    print(connexion_client, " et ", adresse_client)
 
     my_thread = ClientThread(connexion_client)
     my_thread.start()
