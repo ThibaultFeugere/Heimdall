@@ -1,23 +1,28 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sqlite3
+import socket
 
-connection = sqlite3.connect("base.db")
-cursor = connection.cursor()
+adresse, port = ("127.0.0.1", 5555)
 
-pseudo = ('thibault',)
+login, home, fight, shop = False
 
-requete = cursor.execute('SELECT * FROM users WHERE username = ?', pseudo)
-resultat = requete.fetchone()
-username = resultat[1]
+# Socket donnant l'accès au serveur
+connexion_with_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-print(resultat, username)
-
-new_user = (cursor.lastrowid, "Jason", "secret")
-cursor.execute('INSERT INTO users VALUES (?, ?, ?)', new_user)
-connection.commit()
-
-print("Nouvel utilisateur ajouté !")
-
-connection.close()
+try:
+    # Demande de connexion au serveur
+    connexion_with_serveur.connect((adresse, port))
+    if not login:
+        '''On charge la fenêtre de login / register'''
+    if home:
+        '''On charge la fenêtre principale'''
+    if shop:
+        '''On charge la fenêtre de la boutique'''
+    if fight:
+        '''On charge la fenêtre de combat'''
+except ConnectionRefusedError:
+    print("Connexion au serveur échouée")
+finally:
+    # On ferme la connexion
+    connexion_with_serveur.close()
