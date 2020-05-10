@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+# Client créé pour les différents tests
+
 import socket
 
 adresse, port = ("127.0.0.1", 5555)

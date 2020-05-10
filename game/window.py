@@ -26,7 +26,7 @@ textinput = pygame_textinput.TextInput()
 while True:
 
     # color front
-    screen.fill((255,255,255))
+    screen.fill((255, 255, 255))
 
     events = pg.event.get()
     for event in events:
