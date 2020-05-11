@@ -5,7 +5,7 @@ import socket
 
 adresse, port = ("127.0.0.1", 5555)
 
-login, home, fight, shop = False
+login, home, fight, shop = False, False, False, False
 
 # Socket donnant l'accès au serveur
 connexion_with_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
