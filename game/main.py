@@ -15,6 +15,7 @@ try:
     connexion_with_serveur.connect((adresse, port))
     if not login:
         '''On charge la fenêtre de login / register'''
+        login_register()
     if home:
         '''On charge la fenêtre principale'''
     if shop:
