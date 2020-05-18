@@ -14,11 +14,13 @@ try:
     username = input("Quel est votre pseudo ?")
     print("Client " + username)
     # On envoie en bytes un message au serveur
-    connexion_with_serveur.sendall(("Je suis " + username + " et je me connecte").encode("utf8"))
+    connexion_with_serveur.sendall(
+        ("Je suis " + username + " et je me connecte").encode("utf8"))
     while (True):
         quitter = input("Souhaitez-vous vous déconnectez ? o/n")
         if(quitter == "o"):
-            connexion_with_serveur.sendall(("Je suis " + username + " et je me déconnecte").encode("utf8"))
+            connexion_with_serveur.sendall(
+                ("Je suis " + username + " et je me déconnecte").encode("utf8"))
             break
 except ConnectionRefusedError:
     print("Connexion au serveur échouée")

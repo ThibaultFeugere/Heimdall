@@ -10,9 +10,10 @@ class Login:
 
     # Initialisateur
     def __init__(self, pseudo, password):
-        self.pseudo = 'dfd'
-        self.password = 'secdret'
+        self.pseudo = pseudo
+        self.password = password
 
+    # Recupere pseudo/password BDD
     def fetchPseudo(self):
         query_pseudo = (self.pseudo,)  # mise en tuple
         path_db = os.path.join(os.path.dirname(
@@ -25,21 +26,21 @@ class Login:
         connection.close()
         return resultat
 
+    # Teste le pseudo et MDP
     def verify(self, resultat):
         if resultat != None:
             req_pseudo, req_password = resultat[1], resultat[2]
             if self.pseudo == req_pseudo and self.password == req_password:
-                return "Login valide"
+                print("Login valide")
                 # Passer Login a TRUE
             else:
-                return "Login invalide"
+                print("Login invalide")
                 # Laisser Login a FALSE
         else:
             # On stop tout
             pass
 
 
-# conn = Login('test', 'test')
-# res = conn.fetchPseudo()
-# print(res)
-# print(conn.verify(res))
+conn = Login('dfd', 'secdret')
+res = conn.fetchPseudo()
+conn.verify(res)
