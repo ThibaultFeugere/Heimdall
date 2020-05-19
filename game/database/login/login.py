@@ -41,6 +41,6 @@ class Login:
             pass
 
 
-conn = Login('dfd', 'secdret')
-res = conn.fetchPseudo()
-conn.verify(res)
+# conn = Login('dfd', 'secdret')
+# res = conn.fetchPseudo()
+# conn.verify(res)

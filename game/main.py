@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import socket
+import
 
 adresse, port = ("127.0.0.1", 5555)
 
