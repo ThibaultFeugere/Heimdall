@@ -3,6 +3,8 @@
 
 import socket
 import threading
+from game.server.database.login.login import Login
+
 
 class ClientThread(threading.Thread):
     def __init__(self, connexion_client):
@@ -10,12 +12,22 @@ class ClientThread(threading.Thread):
         self.connexion_client = connexion_client
 
     def run(self):
+        username = None
+        password = None
+        login = False
         while(True):
             # On attend de recevoir un message du du client
             data = self.connexion_client.recv(1024)
             data = data.decode("utf-8")
             if data != "":
-                print(data)
+                data = data.split(',')
+                if data[0] == 'username':
+                    username = data[1]
+                if data[0] == 'password':
+                    password = data[1]
+            if login == False:
+                if username and password and login == False:
+                    login = Login(username, password).verify(Login(username, password).fetchPseudo())
 
 #-------------------------------------------------
 
