@@ -23,6 +23,7 @@ class Login:
             'SELECT * FROM users WHERE username = ?', query_pseudo)
         resultat = requete.fetchone()
         connection.close()
+        print("Recherche d'un utilisateur nommé : " + self.username)
         print(resultat)
         return resultat
 
@@ -35,5 +36,4 @@ class Login:
             else:
                 return False
         else:
-            # On stop tout
-            pass
+            return False
