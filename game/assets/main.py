@@ -3,8 +3,11 @@
 
 import pygame, math, time, datetime, socket
 from game import Game
+import buttons.buttons as button
+import stop as Stop
 
 adresse, port = ("127.0.0.1", 5555)
+Login = None
 
 # Socket donnant l'accès au serveur
 connexion_with_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -13,142 +16,140 @@ try:
     # Demande de connexion au serveur
     connexion_with_serveur.connect((adresse, port))
 
+    # Demande de connexion ou d'enregistrement
+    print("1 - Se connecter\n")
+    print("2 - S'enregistrer\n")
+    print("3 - Quitter\n")
+    answer = input("Que souhaitez-vous faire (1, 2 ou 3) ?\n")
+
     # Connexion
-    username = input("Quel est votre pseudo ?\n")
-    password = input("Quel est votre mot de passe ?\n")
-    connexion_with_serveur.sendall(("username," + username).encode("utf8"))
-    connexion_with_serveur.sendall(("password," + password).encode("utf8"))
+    if answer == "1":
+        username = input("Quel est votre pseudo ?\n")
+        password = input("Quel est votre mot de passe ?\n")
+        connexion_with_serveur.sendall(("login, username," + username + ", password," + password).encode("utf8"))
+        data = connexion_with_serveur.recv(1024)
+        Login = data.decode("utf-8")
+        data = connexion_with_serveur.recv(1024)
+        number_online = data.decode("utf-8")
+        print(number_online)
+    if answer == "2":
+        username = input("Quel est votre pseudo ?\n")
+        password = input("Veuillez saisir un mot de passe\n")
+        second_password = input("Veuillez resaisir le mot de passe\n")
 
-    pygame.init()
-    pygame.font.init()
+        if password == second_password:
+            connexion_with_serveur.sendall(("register, username," + username + ", password," + password).encode("utf8"))
+            data = connexion_with_serveur.recv(1024)
+            verify_register = data.decode("utf-8")
+            data = connexion_with_serveur.recv(1024)
+            number_online = data.decode("utf-8")
+            print(number_online)
+            print(verify_register)
+            if verify_register == "1":
+                Login = verify_register
+            if verify_register == "0":
+                print("Le pseudo existe déjà...")
+                Login = "0"
+        else:
+            print("Les deux mot de passes ne correspondent pas...")
 
-    # creating windows
-    screen = pygame.display.set_mode((800, 600))
-    background = pygame.image.load('../images/pixelbackground.jpg')
+    if answer == "3":
+        Stop.stop(connexion_with_serveur)
 
-    # timer_stop = datetime.datetime.utcnow() + datetime.timedelta(seconds=10)
+    if answer != "1" and answer !="2" and answer !="3":
+        # Il faut reappeler la fonction qui pose les questions
+        Stop.stop(connexion_with_serveur)
 
-    # title & icon
-    pygame.display.set_caption("Heimdall")
+    if Login == "0":
+        print("Login echoué")
+        Stop.stop(connexion_with_serveur)
 
-    # Sound
-    pygame.mixer.init()
-    pygame.mixer.music.load("../sounds/main.mp3")
-    pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(0.3)
+    if Login == "1":
+        print("Login effectué avec succès !")
 
-    # Vars
-    menu, play, shop, stats = True, False, False, False
+        pygame.init()
+        pygame.font.init()
 
-    # Logo
-    logo = pygame.image.load('../images/logo.png')
-    logo_rect = logo.get_rect()
-    logo_rect.x = 0
-    logo_rect.y = 0
+        # creating windows
+        screen = pygame.display.set_mode((800, 600))
+        background = pygame.image.load('../images/pixelbackground.jpg')
 
-    # Buttons
-    ## Combattre
-    play_button = pygame.image.load('../images/combattre.png')
-    play_button = pygame.transform.scale(play_button, (200, 50))
-    play_button_rect = play_button.get_rect()
-    play_button_rect.x = math.ceil(screen.get_width() / 2.65)
-    play_button_rect.y = 200
+        # title & icon
+        pygame.display.set_caption("Heimdall")
 
-    ## Shop
-    shop_button = pygame.image.load('../images/boutique.png')
-    shop_button = pygame.transform.scale(shop_button, (200, 50))
-    shop_button_rect = shop_button.get_rect()
-    shop_button_rect.x = math.ceil(screen.get_width() / 2.65)
-    shop_button_rect.y = 270
+        # Sound
+        pygame.mixer.init()
+        pygame.mixer.music.load("../sounds/main.mp3")
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.3)
 
-    ## Statistiques
-    stats_button = pygame.image.load('../images/stats.png')
-    stats_button = pygame.transform.scale(stats_button, (200, 50))
-    stats_button_rect = shop_button.get_rect()
-    stats_button_rect.x = math.ceil(screen.get_width() / 2.65)
-    stats_button_rect.y = 340
+        # Vars
+        menu, play, shop, stats = True, False, False, False
 
-    ## Deconnexion
-    leave_button = pygame.image.load('../images/quitter.png')
-    leave_button = pygame.transform.scale(leave_button, (200, 50))
-    leave_button_rect = leave_button.get_rect()
-    leave_button_rect.x = math.ceil(screen.get_width() / 2.65)
-    leave_button_rect.y = 410
+        # launch bot game
+        game = Game()
 
-    # launch bot game
-    game = Game()
+        # loop game
+        running = True
+        while running:
 
-    # loop game
-    running = True
-    while running:
+            # color front
+            screen.blit(background, (0, 0))
 
-        # color front
-        screen.blit(background, (0, 0))
+            if menu:
+                button.logo_heimdall(screen, False)
+                button.fight_button(screen, False)
+                button.shop_button(screen, False)
+                button.stats_button(screen, False)
+                button.leave_button(screen, False)
 
-        if menu:
-            screen.blit(logo, logo_rect)
-            screen.blit(play_button, play_button_rect)
-            screen.blit(shop_button, shop_button_rect)
-            screen.blit(stats_button, stats_button_rect)
-            screen.blit(leave_button, leave_button_rect)
+            if shop:
+                button.custom_button(screen, False, "Boutique", 72, "#FFFFFF", 310, 20)
+                button.back_button(screen, False)
 
-        if shop:
-            police = pygame.font.Font(None, 72)
-            title = police.render("Boutique", True, pygame.Color("#FFFFFF"))
-            title_rect = title.get_rect()
-            title_rect.x = math.ceil(screen.get_width() / 2.8)
-            title_rect.y = 30
-            screen.blit(title, title_rect)
-        if play:
-            # if datetime.datetime.utcnow() > timer_stop:
-            #  menu = True
-            #  play = False
-            pass
+            if play:
+                button.back_button(screen, False)
 
-        if stats:
-            police = pygame.font.Font(None, 72)
-            title = police.render("Statistiques", True, pygame.Color("#FFFFFF"))
-            title_rect = title.get_rect()
-            title_rect.x = math.ceil(screen.get_width() / 3)
-            title_rect.y = 30
-            screen.blit(title, title_rect)
+            if stats:
+                button.custom_button(screen, False, "Statistiques", 72, "#FFFFFF", 280, 20)
+                button.back_button(screen, False)
 
-        # update windows
-        pygame.display.flip()
+            # update windows
+            pygame.display.flip()
 
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # Si on clique sur COMBATTRE
-                if play_button_rect.collidepoint(event.pos):
-                    menu = False
-                    play = True
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # Si on clique sur COMBATTRE
+                    if button.fight_button(screen, True).collidepoint(event.pos):
+                        menu = False
+                        play = True
 
-                # Si on clique sur BOUTIQUE
-                if shop_button_rect.collidepoint(event.pos):
-                    menu = False
-                    shop = True
+                    # Si on clique sur BOUTIQUE
+                    if button.shop_button(screen, True).collidepoint(event.pos):
+                        menu = False
+                        shop = True
 
-                # Si on clique sur STATS
-                if stats_button_rect.collidepoint(event.pos):
-                    menu = False
-                    stats = True
+                    # Si on clique sur STATS
+                    if button.stats_button(screen, True).collidepoint(event.pos):
+                        menu = False
+                        stats = True
 
-                # Si on clique sur QUITTER
-                if leave_button_rect.collidepoint(event.pos):
-                    pygame.mixer.music.stop()
-                    menu = False
-                    running = False
-                    exit()
-            if event.type == pygame.QUIT:
-                pygame.mixer.music.stop()
-                running = False
-                exit()
+                    # Si tu cliques sur retour
+                    if button.back_button(screen, True).collidepoint(event.pos):
+                        menu = True
+                        play, shop, stats = False, False, False
 
-        pygame.display.update()
+                    # Si on clique sur QUITTER
+                    if button.leave_button(screen, True).collidepoint(event.pos):
+                        Stop.stop(connexion_with_serveur)
+                if event.type == pygame.QUIT:
+                    Stop.stop(connexion_with_serveur)
+
+            pygame.display.update()
 
 except ConnectionRefusedError:
     print("Connexion au serveur échouée")
 finally:
     # On ferme la connexion
-    connexion_with_serveur.close()
+    Stop.stop(connexion_with_serveur)
