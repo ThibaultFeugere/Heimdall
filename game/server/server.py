@@ -3,8 +3,8 @@
 
 import socket
 import threading
-from game.server.database.login.login import Login
-from game.server.database.register.register import Register
+from game.server.database.login import Login
+from game.server.database.register import Register
 
 
 class ClientThread(threading.Thread):
