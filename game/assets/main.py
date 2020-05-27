@@ -4,6 +4,7 @@
 import pygame, math, time, datetime, socket
 from game import Game
 import buttons.buttons as button
+import credentials as credentials
 import stop as Stop
 
 adresse, port = ("127.0.0.1", 5555)
@@ -16,55 +17,9 @@ try:
     # Demande de connexion au serveur
     connexion_with_serveur.connect((adresse, port))
 
-    # Demande de connexion ou d'enregistrement
-    print("1 - Se connecter\n")
-    print("2 - S'enregistrer\n")
-    print("3 - Quitter\n")
-    answer = input("Que souhaitez-vous faire (1, 2 ou 3) ?\n")
+    Login = credentials.ask(connexion_with_serveur, Stop)
 
-    # Connexion
-    if answer == "1":
-        username = input("Quel est votre pseudo ?\n")
-        password = input("Quel est votre mot de passe ?\n")
-        connexion_with_serveur.sendall(("login, username," + username + ", password," + password).encode("utf8"))
-        data = connexion_with_serveur.recv(1024)
-        Login = data.decode("utf-8")
-        data = connexion_with_serveur.recv(1024)
-        number_online = data.decode("utf-8")
-        print(number_online)
-    if answer == "2":
-        username = input("Quel est votre pseudo ?\n")
-        password = input("Veuillez saisir un mot de passe\n")
-        second_password = input("Veuillez resaisir le mot de passe\n")
-
-        if password == second_password:
-            connexion_with_serveur.sendall(("register, username," + username + ", password," + password).encode("utf8"))
-            data = connexion_with_serveur.recv(1024)
-            verify_register = data.decode("utf-8")
-            data = connexion_with_serveur.recv(1024)
-            number_online = data.decode("utf-8")
-            print(number_online)
-            print(verify_register)
-            if verify_register == "1":
-                Login = verify_register
-            if verify_register == "0":
-                print("Le pseudo existe déjà...")
-                Login = "0"
-        else:
-            print("Les deux mot de passes ne correspondent pas...")
-
-    if answer == "3":
-        Stop.stop(connexion_with_serveur)
-
-    if answer != "1" and answer !="2" and answer !="3":
-        # Il faut reappeler la fonction qui pose les questions
-        Stop.stop(connexion_with_serveur)
-
-    if Login == "0":
-        print("Login echoué")
-        Stop.stop(connexion_with_serveur)
-
-    if Login == "1":
+    if Login == True:
         print("Login effectué avec succès !")
 
         pygame.init()
@@ -142,9 +97,9 @@ try:
 
                     # Si on clique sur QUITTER
                     if button.leave_button(screen, True).collidepoint(event.pos):
-                        Stop.stop(connexion_with_serveur)
+                        Stop.stop(connexion_with_serveur, True)
                 if event.type == pygame.QUIT:
-                    Stop.stop(connexion_with_serveur)
+                    Stop.stop(connexion_with_serveur, True)
 
             pygame.display.update()
 
@@ -152,4 +107,4 @@ except ConnectionRefusedError:
     print("Connexion au serveur échouée")
 finally:
     # On ferme la connexion
-    Stop.stop(connexion_with_serveur)
+    Stop.stop(connexion_with_serveur, False)

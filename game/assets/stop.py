@@ -1,7 +1,8 @@
 import pygame
 
-def stop(connexion_with_serveur):
+def stop(connexion_with_serveur, music):
     connexion_with_serveur.close()
-    pygame.mixer.music.stop()
+    if music:
+        pygame.mixer.music.stop()
     running = False
     exit()
