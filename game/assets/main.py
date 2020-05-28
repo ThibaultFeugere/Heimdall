@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import pygame, math, time, datetime, socket
-from game import Game
 import buttons as button
 import credentials as credentials
 import stop as Stop
+from player import Player
+from bot import Bot
 
 adresse, port = ("127.0.0.1", 5555)
 Login = None
@@ -53,9 +54,6 @@ try:
         # Vars
         menu, play, shop, stats = True, False, False, False
 
-        # launch bot game
-        game = Game()
-
         # loop game
         running = True
         while running:
@@ -80,6 +78,10 @@ try:
                 button.back_button(screen, False)
 
             if play:
+                player = Player()
+                bot = Bot()
+                screen.blit(player.image, player.rect)
+                screen.blit(bot.image, bot.rect)
                 button.back_button(screen, False)
 
             if stats:
