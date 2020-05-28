@@ -3,9 +3,9 @@
 
 import socket
 import threading
-from game.server.database.login import Login
-from game.server.database.register import Register
-from game.server.database.all_data import All
+from database.login import Login
+from database.register import Register
+from database.all_data import All
 
 
 class ClientThread(threading.Thread):
