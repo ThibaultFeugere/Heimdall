@@ -72,10 +72,22 @@ def back_button(screen, rect):
     else:
         screen.blit(back_button, back_button_rect)
 
-## Heal
+## Fight Heal
 def heal_button(screen, rect):
     heal_button = pygame.image.load('../images/heal.png')
-    heal_button = pygame.transform.scale(heal_button, (159, 205))
+    heal_button = pygame.transform.scale(heal_button, (50, 50))
+    heal_button_rect = heal_button.get_rect()
+    heal_button_rect.x = 80
+    heal_button_rect.y = 10
+    if rect:
+        return heal_button_rect
+    else:
+        screen.blit(heal_button, heal_button_rect)
+
+## Shop heal
+def shop_heal_button(screen, rect):
+    heal_button = pygame.image.load('../images/heal.png')
+    heal_button = pygame.transform.scale(heal_button, (200, 200))
     heal_button_rect = heal_button.get_rect()
     heal_button_rect.x = 320
     heal_button_rect.y = 200
@@ -94,6 +106,17 @@ def buy_button(screen, rect):
         return buy_button_rect
     else:
         screen.blit(buy_button, buy_button_rect)
+
+def sword_button(screen, rect):
+    sword_button = pygame.image.load('../images/sword.png')
+    sword_button = pygame.transform.scale(sword_button, (64, 64))
+    sword_button_rect = sword_button.get_rect()
+    sword_button_rect.x = 10
+    sword_button_rect.y = 10
+    if rect:
+        return sword_button_rect
+    else:
+        screen.blit(sword_button, sword_button_rect)
 
 def custom_button(screen, rect, text, size, color, x, y):
     police = pygame.font.Font(None, size)
