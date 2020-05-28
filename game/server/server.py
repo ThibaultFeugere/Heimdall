@@ -3,8 +3,8 @@
 
 import socket
 import threading
-from game.server.database.login.login import Login
-from game.server.database.register.register import Register
+from database.login.login import Login
+from database.register.register import Register
 
 
 class ClientThread(threading.Thread):
@@ -35,10 +35,12 @@ class ClientThread(threading.Thread):
                     register = True
 
             if login:
-                verify_login = Login(username, password).verify(Login(username, password).fetchPseudo())
+                verify_login = Login(username, password).verify(
+                    Login(username, password).fetchPseudo())
                 if verify_login:
                     self.connexion_client.sendall(("1").encode("utf-8"))
-                    self.connexion_client.sendall(("online, " + str(self.number_online)).encode("utf-8"))
+                    self.connexion_client.sendall(
+                        ("online, " + str(self.number_online)).encode("utf-8"))
                 if not verify_login:
                     self.connexion_client.sendall(("0").encode("utf-8"))
                 login = False
@@ -52,7 +54,8 @@ class ClientThread(threading.Thread):
 
     def stop(self):
         self.running = False
-#-------------------------------------------------
+# -------------------------------------------------
+
 
 # AF_INET = adresses Internet de type IPv4
 # SOCK_STREAM = protocole TCP
