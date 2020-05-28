@@ -6,7 +6,7 @@ def logo_heimdall(screen, rect):
     logo_rect = logo.get_rect()
     logo_rect.x = math.ceil(screen.get_width() / 2.65)
     logo_rect.y = 0
-    if rect == True:
+    if rect:
         return logo_rect
     else:
         screen.blit(logo, logo_rect)
@@ -19,7 +19,7 @@ def fight_button(screen, rect):
     fight_button_rect = fight_button.get_rect()
     fight_button_rect.x = math.ceil(screen.get_width() / 2.65)
     fight_button_rect.y = 200
-    if rect == True:
+    if rect:
         return fight_button_rect
     else:
         screen.blit(fight_button, fight_button_rect)
@@ -31,7 +31,7 @@ def shop_button(screen, rect):
     shop_button_rect = shop_button.get_rect()
     shop_button_rect.x = math.ceil(screen.get_width() / 2.65)
     shop_button_rect.y = 270
-    if rect == True:
+    if rect:
         return shop_button_rect
     else:
         screen.blit(shop_button, shop_button_rect)
@@ -43,7 +43,7 @@ def stats_button(screen, rect):
     stats_button_rect = stats_button.get_rect()
     stats_button_rect.x = math.ceil(screen.get_width() / 2.65)
     stats_button_rect.y = 340
-    if rect == True:
+    if rect:
         return stats_button_rect
     else:
         screen.blit(stats_button, stats_button_rect)
@@ -55,7 +55,7 @@ def leave_button(screen, rect):
     leave_button_rect = leave_button.get_rect()
     leave_button_rect.x = math.ceil(screen.get_width() / 2.65)
     leave_button_rect.y = 410
-    if rect == True:
+    if rect:
         return leave_button_rect
     else:
         screen.blit(leave_button, leave_button_rect)
@@ -67,7 +67,7 @@ def back_button(screen, rect):
     back_button_rect = back_button.get_rect()
     back_button_rect.x = 0
     back_button_rect.y = math.ceil(screen.get_height() - 50)
-    if rect == True:
+    if rect:
         return back_button_rect
     else:
         screen.blit(back_button, back_button_rect)
@@ -79,7 +79,7 @@ def heal_button(screen, rect):
     heal_button_rect = heal_button.get_rect()
     heal_button_rect.x = 320
     heal_button_rect.y = 200
-    if rect == True:
+    if rect:
         return heal_button_rect
     else:
         screen.blit(heal_button, heal_button_rect)
@@ -89,8 +89,8 @@ def buy_button(screen, rect):
     buy_button = pygame.transform.scale(buy_button, (196, 65))
     buy_button_rect = buy_button.get_rect()
     buy_button_rect.x = 310
-    buy_button_rect.y = 350
-    if rect == True:
+    buy_button_rect.y = 550
+    if rect:
         return buy_button_rect
     else:
         screen.blit(buy_button, buy_button_rect)
@@ -101,7 +101,7 @@ def custom_button(screen, rect, text, size, color, x, y):
     custom_button_rect = custom_button.get_rect()
     custom_button_rect.x = x
     custom_button_rect.y = y
-    if rect == True:
+    if rect:
         return custom_button_rect
     else:
         screen.blit(custom_button, custom_button_rect)

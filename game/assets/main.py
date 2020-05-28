@@ -54,6 +54,9 @@ try:
         # Vars
         menu, play, shop, stats = True, False, False, False
 
+        player = Player(int(level), int(wins), int(loses), int(money))
+        bot = Bot()
+
         # loop game
         running = True
         while running:
@@ -62,9 +65,10 @@ try:
             screen.blit(background, (0, 0))
 
             if menu:
-                button.custom_button(screen, False, money + " PO", 42, "#FFFFFF", 30, 20)
-                button.custom_button(screen, False, "Level " + level, 42, "#FFFFFF", 650, 20)
-                button.custom_button(screen, False, "Online " + online, 42, "#FFFFFF", 650, 500)
+                button.custom_button(screen, False, str(money) + " PO", 42, "#FFFFFF", 30, 20)
+                button.custom_button(screen, False, "Level " + str(level), 42, "#FFFFFF", 650, 20)
+                button.custom_button(screen, False, "Online " + str(online), 42, "#FFFFFF", 650, 550)
+                button.custom_button(screen, False, "Potions : " + str(player.potions), 42, "#FFFFFF", 20, 550)
                 button.logo_heimdall(screen, False)
                 button.fight_button(screen, False)
                 button.shop_button(screen, False)
@@ -78,19 +82,20 @@ try:
                 button.back_button(screen, False)
 
             if play:
-                player = Player()
-                bot = Bot()
                 screen.blit(player.image, player.rect)
+                player.update_health_bar(screen)
+                bot.update_health_bar(screen)
                 screen.blit(bot.image, bot.rect)
+                player.take_damage(1)
                 button.back_button(screen, False)
 
             if stats:
                 button.custom_button(screen, False, "Statistiques", 72, "#FFFFFF", 280, 20)
-                button.custom_button(screen, False, wins + " victoires", 40, "#FFFFFF", 320, 200)
-                button.custom_button(screen, False, loses + " défaites", 40, "#FFFFFF", 320, 250)
-                button.custom_button(screen, False, ratio + " de ratio", 40, "#FFFFFF", 320, 300)
-                button.custom_button(screen, False, "Level " + level, 40, "#FFFFFF", 320, 350)
-                button.custom_button(screen, False, money + " PO", 40, "#FFFFFF", 320, 400)
+                button.custom_button(screen, False, str(wins) + " victoires", 40, "#FFFFFF", 320, 200)
+                button.custom_button(screen, False, str(loses) + " défaites", 40, "#FFFFFF", 320, 250)
+                button.custom_button(screen, False, str(ratio) + " de ratio", 40, "#FFFFFF", 320, 300)
+                button.custom_button(screen, False, "Level " + str(level), 40, "#FFFFFF", 320, 350)
+                button.custom_button(screen, False, str(money) + " PO", 40, "#FFFFFF", 320, 400)
                 button.back_button(screen, False)
 
             # update windows
@@ -101,7 +106,7 @@ try:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Si on clique sur COMBATTRE
                     if button.fight_button(screen, True).collidepoint(event.pos):
-                        menu = False
+                        menu, shop, stats = False, False, False
                         play = True
 
                     # Si on clique sur BOUTIQUE
@@ -111,13 +116,15 @@ try:
 
                     # Si on clique sur STATS
                     if button.stats_button(screen, True).collidepoint(event.pos):
-                        menu = False
+                        menu, shop, play = False, False, False
                         stats = True
 
                     # Si on clique sur BUY
                     if button.buy_button(screen, True).collidepoint(event.pos):
-                        # On enleve 100 PO
-                        pass
+                        player.spend_money(10)
+                        money = player.money
+                        menu = True
+                        play, shop, stats = False, False, False
 
                     # Si tu cliques sur retour
                     if button.back_button(screen, True).collidepoint(event.pos):
