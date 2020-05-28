@@ -29,6 +29,7 @@ try:
     loses = data.decode("utf-8")
     data = connexion_with_serveur.recv(1024)
     level = data.decode("utf-8")
+    ratio = str(int(wins)/int(loses))
 
     if Login == True:
         print("Login effectué avec succès !")
@@ -81,6 +82,11 @@ try:
 
             if stats:
                 button.custom_button(screen, False, "Statistiques", 72, "#FFFFFF", 280, 20)
+                button.custom_button(screen, False, wins + " victoires", 40, "#FFFFFF", 320, 200)
+                button.custom_button(screen, False, loses + " défaites", 40, "#FFFFFF", 320, 250)
+                button.custom_button(screen, False, ratio + " de ratio", 40, "#FFFFFF", 320, 300)
+                button.custom_button(screen, False, "Level " + level, 40, "#FFFFFF", 320, 350)
+                button.custom_button(screen, False, money + " PO", 40, "#FFFFFF", 320, 400)
                 button.back_button(screen, False)
 
             # update windows
