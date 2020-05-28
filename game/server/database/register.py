@@ -14,7 +14,7 @@ class Register():
 
     def register(self):
         path_db = os.path.join(os.path.dirname(
-            os.path.abspath(__file__))) + '/../base.db'
+            os.path.abspath(__file__))) + './base.db'
         connection = sqlite3.connect(path_db)
         cursor = connection.cursor()
         query_pseudo = (self.username,)
