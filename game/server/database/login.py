@@ -16,7 +16,7 @@ class Login:
     def fetchPseudo(self):
         query_pseudo = (self.username,)  # mise en tuple
         path_db = os.path.join(os.path.dirname(
-            os.path.abspath(__file__))) + '/../base.db'
+            os.path.abspath(__file__))) + './base.db'
         connection = sqlite3.connect(path_db)
         cursor = connection.cursor()
         requete = cursor.execute(
