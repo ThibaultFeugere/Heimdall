@@ -76,8 +76,9 @@ try:
                 button.leave_button(screen, False)
 
             if shop:
-                button.custom_button(screen, False, "Boutique", 72, "#FFFFFF", 310, 20)
+                button.custom_button(screen, False, "Boutique", 72, "#FFFFFF", 300, 20)
                 button.shop_heal_button(screen, False)
+                button.custom_button(screen, False, "10 PO", 40, "#FFFFFF", 350, 380)
                 button.buy_button(screen, False)
                 button.back_button(screen, False)
 
@@ -91,7 +92,7 @@ try:
                     button.sword_button(screen, False)
                     button.heal_button(screen, False)
                 else:
-                    pygame.time.delay(1000)
+                    pygame.time.delay(2000)
                     if player.health - bot.damage <= 0:
                         player.health = player.max_health
                         bot.health = bot.max_health
@@ -152,6 +153,7 @@ try:
                             if bot.health - player.damage <= 0:
                                 player.health = player.max_health
                                 bot.health = bot.max_health
+                                player.money += 15
                                 player.win += 1
                                 victory = True
                                 shop, stats, play = False, False, False
