@@ -27,10 +27,9 @@ try:
     data = connexion_with_serveur.recv(1024)
     wins = data.decode("utf-8")
     data = connexion_with_serveur.recv(1024)
-    loses = data.decode("utf-8")
+    lose = data.decode("utf-8")
     data = connexion_with_serveur.recv(1024)
     level = data.decode("utf-8")
-    ratio = str(int(wins) / int(loses))
 
     if Login == True:
         print("Login effectué avec succès !")
@@ -52,21 +51,22 @@ try:
         pygame.mixer.music.set_volume(0.3)
 
         # Vars
-        menu, play, shop, stats = True, False, False, False
+        menu, play, shop, stats, victory = True, False, False, False, None
 
-        player = Player(int(level), int(wins), int(loses), int(money))
+        player = Player(int(level), int(wins), int(lose), int(money))
         bot = Bot()
 
         # loop game
         running = True
+        your_turn = True
         while running:
 
             # color front
             screen.blit(background, (0, 0))
 
             if menu:
-                button.custom_button(screen, False, str(money) + " PO", 42, "#FFFFFF", 30, 20)
-                button.custom_button(screen, False, "Level " + str(level), 42, "#FFFFFF", 650, 20)
+                button.custom_button(screen, False, str(player.money) + " PO", 42, "#FFFFFF", 30, 20)
+                button.custom_button(screen, False, "Level " + str(player.level), 42, "#FFFFFF", 650, 20)
                 button.custom_button(screen, False, "Online " + str(online), 42, "#FFFFFF", 650, 550)
                 button.custom_button(screen, False, "Potions : " + str(player.potions), 42, "#FFFFFF", 20, 550)
                 button.logo_heimdall(screen, False)
@@ -77,7 +77,7 @@ try:
 
             if shop:
                 button.custom_button(screen, False, "Boutique", 72, "#FFFFFF", 310, 20)
-                button.heal_button(screen, False)
+                button.shop_heal_button(screen, False)
                 button.buy_button(screen, False)
                 button.back_button(screen, False)
 
@@ -86,16 +86,36 @@ try:
                 player.update_health_bar(screen)
                 bot.update_health_bar(screen)
                 screen.blit(bot.image, bot.rect)
-                player.take_damage(1)
                 button.back_button(screen, False)
+                if your_turn:
+                    button.sword_button(screen, False)
+                    button.heal_button(screen, False)
+                else:
+                    pygame.time.delay(1000)
+                    if player.health - bot.damage <= 0:
+                        player.health = player.max_health
+                        bot.health = bot.max_health
+                        player.lose += 1
+                        victory = False
+                        shop, stats, play = False, False, False
+                    else:
+                        player.take_damage(bot.attack())
+                    your_turn = not your_turn
 
             if stats:
                 button.custom_button(screen, False, "Statistiques", 72, "#FFFFFF", 280, 20)
-                button.custom_button(screen, False, str(wins) + " victoires", 40, "#FFFFFF", 320, 200)
-                button.custom_button(screen, False, str(loses) + " défaites", 40, "#FFFFFF", 320, 250)
-                button.custom_button(screen, False, str(ratio) + " de ratio", 40, "#FFFFFF", 320, 300)
-                button.custom_button(screen, False, "Level " + str(level), 40, "#FFFFFF", 320, 350)
-                button.custom_button(screen, False, str(money) + " PO", 40, "#FFFFFF", 320, 400)
+                button.custom_button(screen, False, str(player.win) + " victoires", 40, "#FFFFFF", 320, 200)
+                button.custom_button(screen, False, str(player.lose) + " défaites", 40, "#FFFFFF", 320, 250)
+                button.custom_button(screen, False, str(round(player.win / player.lose, 2)) + " de ratio", 40, "#FFFFFF", 320, 300)
+                button.custom_button(screen, False, "Level " + str(player.level), 40, "#FFFFFF", 320, 350)
+                button.custom_button(screen, False, str(player.money) + " PO", 40, "#FFFFFF", 320, 400)
+                button.back_button(screen, False)
+
+            if victory is not None:
+                if victory:
+                    button.custom_button(screen, False, "Victoire !", 72, "#FFFFFF", 280, 250)
+                if not victory:
+                    button.custom_button(screen, False, "Défaite !", 72, "#FFFFFF", 280, 250)
                 button.back_button(screen, False)
 
             # update windows
@@ -126,10 +146,42 @@ try:
                         menu = True
                         play, shop, stats = False, False, False
 
+                    # Si on clique sur SWORD
+                    if button.sword_button(screen, True).collidepoint(event.pos):
+                        if your_turn:
+                            if bot.health - player.damage <= 0:
+                                player.health = player.max_health
+                                bot.health = bot.max_health
+                                player.win += 1
+                                victory = True
+                                shop, stats, play = False, False, False
+                            else:
+                                bot.take_damage(player.attack())
+                                bot.update_health_bar(screen)
+                            your_turn = not your_turn
+
+                    # Si tu cliques sur HEAL
+                    if button.heal_button(screen, True).collidepoint(event.pos):
+                        if your_turn:
+                            if player.potions > 0:
+                                player.potions -= 1
+                                player.health += player.heal
+                            else:
+                                print("Pas assez de potions, allez en acheter après le combat")
+                            your_turn = not your_turn
+
                     # Si tu cliques sur retour
                     if button.back_button(screen, True).collidepoint(event.pos):
-                        menu = True
-                        play, shop, stats = False, False, False
+                        if play:
+                            player.lose += 1
+                            player.health = player.max_health
+                            bot.health = bot.max_health
+                            victory = False
+                            menu, play, shop, stats = False, False, False, False
+                        else:
+                            victory = None
+                            menu = True
+                            play, shop, stats = False, False, False
 
                     # Si on clique sur QUITTER
                     if button.leave_button(screen, True).collidepoint(event.pos):

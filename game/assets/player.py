@@ -8,15 +8,16 @@ pygame.font.init()
 # player class
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, level, win, loses, money):
+    def __init__(self, level, win, lose, money):
         super().__init__()
         self.max_health = 100
         self.health = self.max_health
-        self.damage = 10
+        self.damage = 50
         self.level = level
         self.win = win
-        self.lose = loses
+        self.lose = lose
         self.money = money
+        self.heal = 35
         self.potions = 0
         self.image = pygame.image.load('../images/player.png')
         self.image = pygame.transform.scale(self.image, (300, 345))
@@ -34,8 +35,8 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(surface, background_bar_color, background_bar_position)
         pygame.draw.rect(surface, bar_color, bar_position)
 
-    def heal(self, heal_amount):
-        self.health += heal_amount
+    def heal(self):
+        self.health += self.heal
 
     def take_damage(self, damage_amount):
         self.health -= damage_amount

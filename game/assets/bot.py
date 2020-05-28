@@ -12,7 +12,7 @@ class Bot(pygame.sprite.Sprite):
         super().__init__()
         self.max_health = 100
         self.health = self.max_health
-        self.damage = 10
+        self.damage = 20
         self.image = pygame.image.load('../images/bot.png')
         self.image = pygame.transform.scale(self.image, (250, 280))
         self.rect = self.image.get_rect()
