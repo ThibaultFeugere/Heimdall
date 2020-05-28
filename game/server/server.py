@@ -5,6 +5,7 @@ import socket
 import threading
 from database.login import Login
 from database.register import Register
+from database.all_data import All
 
 
 class ClientThread(threading.Thread):
@@ -18,6 +19,7 @@ class ClientThread(threading.Thread):
         username = None
         password = None
         login = False
+        send_all = False
         register = False
         while(True):
             # On attend de recevoir un message du du client
@@ -37,8 +39,8 @@ class ClientThread(threading.Thread):
             if login:
                 verify_login = Login(username, password).verify(Login(username, password).fetchPseudo())
                 if verify_login:
+                    send_all = True
                     self.connexion_client.sendall(("1").encode("utf-8"))
-                    self.connexion_client.sendall(("online, " + str(self.number_online)).encode("utf-8"))
                 if not verify_login:
                     self.connexion_client.sendall(("0").encode("utf-8"))
                 login = False
@@ -49,6 +51,18 @@ class ClientThread(threading.Thread):
                 if not verify_register:
                     self.connexion_client.sendall(("0").encode("utf-8"))
                 register = False
+            if send_all:
+                datas = All(username).fetch_all()
+                # On envoie le nombre de personnes online
+                self.connexion_client.sendall((str(self.number_online)).encode("utf-8"))
+                # On envoie les POs
+                self.connexion_client.sendall((str(datas[3])).encode("utf-8"))
+                # On envoie les wins
+                self.connexion_client.sendall((str(datas[4])).encode("utf-8"))
+                # On envoie les loses
+                self.connexion_client.sendall((str(datas[5])).encode("utf-8"))
+                # On envoie les levels
+                self.connexion_client.sendall((str(datas[6])).encode("utf-8"))
 
     def stop(self):
         self.running = False
