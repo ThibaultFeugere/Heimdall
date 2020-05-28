@@ -47,6 +47,7 @@ class ClientThread(threading.Thread):
             if register:
                 verify_register = Register(username, password).register()
                 if verify_register:
+                    send_all = True
                     self.connexion_client.sendall(("1").encode("utf-8"))
                 if not verify_register:
                     self.connexion_client.sendall(("0").encode("utf-8"))

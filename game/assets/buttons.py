@@ -72,6 +72,29 @@ def back_button(screen, rect):
     else:
         screen.blit(back_button, back_button_rect)
 
+## Heal
+def heal_button(screen, rect):
+    heal_button = pygame.image.load('../images/heal.png')
+    heal_button = pygame.transform.scale(heal_button, (159, 205))
+    heal_button_rect = heal_button.get_rect()
+    heal_button_rect.x = 320
+    heal_button_rect.y = 200
+    if rect == True:
+        return heal_button_rect
+    else:
+        screen.blit(heal_button, heal_button_rect)
+
+def buy_button(screen, rect):
+    buy_button = pygame.image.load('../images/buy.png')
+    buy_button = pygame.transform.scale(buy_button, (196, 65))
+    buy_button_rect = buy_button.get_rect()
+    buy_button_rect.x = 310
+    buy_button_rect.y = 350
+    if rect == True:
+        return buy_button_rect
+    else:
+        screen.blit(buy_button, buy_button_rect)
+
 def custom_button(screen, rect, text, size, color, x, y):
     police = pygame.font.Font(None, size)
     custom_button = police.render(text, True, pygame.Color(color))

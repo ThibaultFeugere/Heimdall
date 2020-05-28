@@ -25,9 +25,9 @@ class Register():
         if resultat == None:
             cursor = connection.cursor()
             new_user = (cursor.lastrowid, self.username, self.password,
-                        100, datetime.now(), datetime.now())
+                        100, 0, 0, 0, datetime.now(), datetime.now())
             cursor.execute(
-                'INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)', new_user)
+                'INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', new_user)
             connection.commit()
             return True
         connection.close()

@@ -41,7 +41,8 @@ def register(connexion_with_serveur):
         data = connexion_with_serveur.recv(1024)
         verify_register = data.decode("utf-8")
         if verify_register == "1":
-            return True
+            print("Vous pouvez désormais vous connecter...")
+            login(connexion_with_serveur)
         if verify_register == "0":
             print("Le pseudo existe déjà...")
             return register(connexion_with_serveur)

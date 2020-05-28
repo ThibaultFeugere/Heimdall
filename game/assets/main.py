@@ -75,6 +75,8 @@ try:
 
             if shop:
                 button.custom_button(screen, False, "Boutique", 72, "#FFFFFF", 310, 20)
+                button.heal_button(screen, False)
+                button.buy_button(screen, False)
                 button.back_button(screen, False)
 
             if play:
@@ -109,6 +111,11 @@ try:
                     if button.stats_button(screen, True).collidepoint(event.pos):
                         menu = False
                         stats = True
+
+                    # Si on clique sur BUY
+                    if button.buy_button(screen, True).collidepoint(event.pos):
+                        # On enleve 100 PO
+                        pass
 
                     # Si tu cliques sur retour
                     if button.back_button(screen, True).collidepoint(event.pos):
