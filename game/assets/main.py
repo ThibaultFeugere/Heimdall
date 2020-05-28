@@ -3,7 +3,7 @@
 
 import pygame, math, time, datetime, socket
 from game import Game
-import buttons.buttons as button
+import buttons as button
 import credentials as credentials
 import stop as Stop
 
