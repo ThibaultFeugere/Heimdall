@@ -48,6 +48,3 @@ def register(connexion_with_serveur):
     else:
         print("Les deux mot de passes ne correspondent pas...\n On recommence : \n")
         register(connexion_with_serveur)
-
-def session():
-    pass

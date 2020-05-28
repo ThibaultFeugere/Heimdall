@@ -19,6 +19,17 @@ try:
 
     Login = credentials.ask(connexion_with_serveur, Stop)
 
+    data = connexion_with_serveur.recv(1024)
+    online = data.decode("utf-8")
+    data = connexion_with_serveur.recv(1024)
+    money = data.decode("utf-8")
+    data = connexion_with_serveur.recv(1024)
+    wins = data.decode("utf-8")
+    data = connexion_with_serveur.recv(1024)
+    loses = data.decode("utf-8")
+    data = connexion_with_serveur.recv(1024)
+    level = data.decode("utf-8")
+
     if Login == True:
         print("Login effectué avec succès !")
 
@@ -52,6 +63,9 @@ try:
             screen.blit(background, (0, 0))
 
             if menu:
+                button.custom_button(screen, False, money + " PO", 42, "#FFFFFF", 30, 20)
+                button.custom_button(screen, False, "Level " + level, 42, "#FFFFFF", 650, 20)
+                button.custom_button(screen, False, "Online " + online, 42, "#FFFFFF", 650, 500)
                 button.logo_heimdall(screen, False)
                 button.fight_button(screen, False)
                 button.shop_button(screen, False)
