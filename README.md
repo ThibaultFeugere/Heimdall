@@ -38,4 +38,4 @@ Heimdall est un jeu de combat tour par tour accompagné d'une musique scandinave
 
 ## Documentation
 
-Vous pouvez trouver la documentation ici.
+Vous pouvez trouver la documentation sur l'installation et le fonctionnalités ici.
