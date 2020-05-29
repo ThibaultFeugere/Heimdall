@@ -7,6 +7,14 @@ Pour pouvoir jouer au jeu, vous devez installer pygame avec la commande : `pip i
 Le ``server.py` s'occupe de lancer le serveur et de gérer les threads. Celui-ci écoute sur un port précis et, lors d'une connexion, s'occupe aussi de générer un thread pour communiquer avec le jeu.
 Il est indispensable de lancer le `server.py` avant de lancer le client (`main.py`)
 
+### Login
+
+`login.py` est la classe permettant de vérifier si l'utilisateur existe et si le mot de passe est correcte, côté serveur. Ensuite, le serveur donne une réponse positive ou négative au client.
+
+### Register
+
+`register.py` est la classe permettant de vérifier si l'utilisateur existe ou non et crée le compte dans la base de données, puis envoi une réponse.
+
 ## Client
 
 Le `main.py` est en quelque sorte l'orchestrateur de nombreux morceaux du code permettant :
@@ -50,4 +58,4 @@ Stop est un fichier ou nous stockons les lignes récurrentes lors de l'arrêt du
 
 ### Credentials
 
-`credentials.py` est la partie qui gère la connexion et la communication du client vers le serveur.
+`credentials.py` est la partie qui gère la connexion et la communication du client vers le serveur. Le système se veut récursif.
