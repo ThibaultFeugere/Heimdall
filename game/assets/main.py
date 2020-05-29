@@ -77,6 +77,7 @@ try:
 
             if shop:
                 button.custom_button(screen, False, "Boutique", 72, "#FFFFFF", 300, 20)
+                button.custom_button(screen, False, str(player.money) + " PO", 42, "#FFFFFF", 30, 20)
                 button.shop_heal_button(screen, False)
                 button.custom_button(screen, False, "10 PO", 40, "#FFFFFF", 350, 380)
                 button.buy_button(screen, False)
@@ -91,6 +92,7 @@ try:
                 if your_turn:
                     button.sword_button(screen, False)
                     button.heal_button(screen, False)
+                    button.custom_button(screen, False, str(player.potions), 40, "#FFFFFF", 100, 65)
                 else:
                     pygame.time.delay(2000)
                     if player.health - bot.damage <= 0:
@@ -168,6 +170,7 @@ try:
                             if player.potions > 0:
                                 player.potions -= 1
                                 player.health += player.heal
+                                player.update_health_bar(screen)
                             else:
                                 print("Pas assez de potions, allez en acheter après le combat")
                             your_turn = not your_turn
