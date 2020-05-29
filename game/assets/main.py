@@ -90,9 +90,9 @@ try:
                 screen.blit(bot.image, bot.rect)
                 button.back_button(screen, False)
                 if your_turn:
+                    button.custom_button(screen, False, str(player.potions), 40, "#FFFFFF", 100, 65)
                     button.sword_button(screen, False)
                     button.heal_button(screen, False)
-                    button.custom_button(screen, False, str(player.potions), 40, "#FFFFFF", 100, 65)
                 else:
                     pygame.time.delay(2000)
                     if player.health - bot.damage <= 0:
@@ -168,8 +168,11 @@ try:
                     if button.heal_button(screen, True).collidepoint(event.pos):
                         if your_turn:
                             if player.potions > 0:
+                                if player.health + player.heal > player.max_health:
+                                    player.health = player.max_health
+                                else:
+                                    player.health += player.heal
                                 player.potions -= 1
-                                player.health += player.heal
                                 player.update_health_bar(screen)
                             else:
                                 print("Pas assez de potions, allez en acheter après le combat")

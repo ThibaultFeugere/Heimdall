@@ -21,10 +21,10 @@ class Bot(pygame.sprite.Sprite):
 
     def update_health_bar(self, surface):
         bar_color = (111, 210, 46)
-        bar_position = [self.rect.x + 12, self.rect.y - 20, self.health, 5]
+        bar_position = [self.rect.x + 100, self.rect.y, self.health, 7]
 
         background_bar_color = (255, 0, 0)
-        background_bar_position = [self.rect.x + 12, self.rect.y - 20, self.max_health, 5]
+        background_bar_position = [self.rect.x + 100, self.rect.y, self.max_health, 7]
 
         pygame.draw.rect(surface, background_bar_color, background_bar_position)
         pygame.draw.rect(surface, bar_color, bar_position)
