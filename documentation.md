@@ -4,7 +4,7 @@ Pour pouvoir jouer au jeu, vous devez installer pygame avec la commande : `pip i
 
 ## Serveur
 
-Le ``server.py` s'occupe de lancer le serveur et de gérer les threads. Celui-ci écoute sur un port précis et, lors d'une connexion, s'occupe aussi de générer un thread pour communiquer avec le jeu.
+Le `server.py` s'occupe de lancer le serveur et de gérer les threads. Celui-ci écoute sur un port précis et, lors d'une connexion, s'occupe aussi de générer un thread pour communiquer avec le jeu.
 Il est indispensable de lancer le `server.py` avant de lancer le client (`main.py`)
 
 ### Login
